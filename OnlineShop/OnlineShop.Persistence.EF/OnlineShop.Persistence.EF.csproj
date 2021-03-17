@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\OnlineShop.Entities\OnlineShop.Entities.csproj" />
     <ProjectReference Include="..\OnlineShop.Infrastructure\OnlineShop.Infrastructure.csproj" />
+    <ProjectReference Include="..\OnlineShop.Services\OnlineShop.Services.csproj" />
   </ItemGroup>
 
 </Project>

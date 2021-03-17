@@ -6,10 +6,16 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using OnlineShop.Infrastructure.Application;
+using OnlineShop.Persistence.EF;
+using OnlineShop.Persistence.EF.ProductCategories;
+using OnlineShop.Services.ProductCategories;
+using OnlineShop.Services.ProductCategories.Contracts;
 
 namespace OnlineShop.RestApi
 {
@@ -26,6 +32,19 @@ namespace OnlineShop.RestApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddDbContext<EFDataContext>(options =>
+            {
+                options.UseSqlServer("Server=.;Database=OnlineShop_12;Trusted_Connection=True;");
+            });
+
+            services.AddScoped<UnitOfWork, EFUnitOfWork>();
+
+            services.AddScoped<ProductCategoryRepository, EFProductCategoryRepository>();
+
+            services.AddScoped<ProdcutCategoryServices, ProductCategoryAppServices>();
+
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +60,13 @@ namespace OnlineShop.RestApi
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
 
             app.UseEndpoints(endpoints =>
             {
