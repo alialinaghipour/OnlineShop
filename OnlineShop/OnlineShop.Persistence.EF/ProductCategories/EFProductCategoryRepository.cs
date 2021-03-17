@@ -3,8 +3,9 @@ using OnlineShop.Entities;
 using OnlineShop.Services.ProductCategories.Contracts;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 
 namespace OnlineShop.Persistence.EF.ProductCategories
 {
@@ -22,6 +23,15 @@ namespace OnlineShop.Persistence.EF.ProductCategories
         public void Add(ProductCategory productCategory)
         {
             _set.Add(productCategory);
+        }
+
+        public async Task<IList<GetAllProductCategoryDto>> GetAll()
+        {
+            return await _set.Select(_ => new GetAllProductCategoryDto()
+            {
+                Id = _.Id,
+                Title = _.Title
+            }).ToListAsync();
         }
     }
 }

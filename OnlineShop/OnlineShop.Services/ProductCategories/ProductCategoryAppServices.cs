@@ -32,5 +32,10 @@ namespace OnlineShop.Services.ProductCategories
 
             return productCategory.Id;
         }
+
+        public async Task<IList<GetAllProductCategoryDto>> GetAll()
+        {
+            return await _repository.GetAll();
+        }
     }
 }

@@ -8,5 +8,7 @@ namespace OnlineShop.Services.ProductCategories.Contracts
     public interface ProdcutCategoryServices
     {
         Task<int> Add(AddProductCategoryDto dto);
+        Task<IList<GetAllProductCategoryDto>> GetAll();
+
     }
 }

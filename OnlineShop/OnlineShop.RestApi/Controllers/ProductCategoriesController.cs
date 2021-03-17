@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,9 +19,15 @@ namespace OnlineShop.RestApi.Controllers
         }
 
         [HttpPost]
-        public async Task Add(AddProductCategoryDto dto)
+        public async Task<int> Add(AddProductCategoryDto dto)
         {
-           await _services.Add(dto);
+            return await _services.Add(dto);
+        }
+
+        [HttpGet]
+        public async Task<IList<GetAllProductCategoryDto>> GetAll()
+        {
+            return await _services.GetAll();
         }
     }
 }
