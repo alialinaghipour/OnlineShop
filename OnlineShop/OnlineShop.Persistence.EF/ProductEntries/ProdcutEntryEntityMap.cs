@@ -19,7 +19,7 @@ namespace OnlineShop.Persistence.EF.ProductEntries
 
             _.Property(_ => _.Count).IsRequired();
 
-            _.Property(_ => _.NumberFactor).IsRequired();
+            _.Property(_ => _.NumberFactor).IsRequired().HasMaxLength(20);
 
             _.Property(_ => _.CreateDate).IsRequired();
 

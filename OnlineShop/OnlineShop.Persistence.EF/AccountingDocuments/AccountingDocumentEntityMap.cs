@@ -17,9 +17,9 @@ namespace OnlineShop.Persistence.EF.AccountingDocuments
 
             _.Property(_ => _.Id).IsRequired().ValueGeneratedOnAdd();
 
-            _.Property(_ => _.Number).IsRequired();
+            _.Property(_ => _.Number).IsRequired().HasMaxLength(20);
 
-            _.Property(_ => _.NumberInvoice).IsRequired();
+            _.Property(_ => _.NumberInvoice).IsRequired().HasMaxLength(20);
 
             _.Property(_ => _.TotalPrice).IsRequired();
 
