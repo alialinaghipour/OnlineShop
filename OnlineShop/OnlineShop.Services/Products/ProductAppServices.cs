@@ -67,7 +67,7 @@ namespace OnlineShop.Services.Products
         {
             if(await _repository.IsExistsTitleToProductCategory(title, productCategoryId))
             {
-                throw new ProductTitleDuplicateException();
+                throw new ProductTitleDuplicateToProductCategoryException();
             }
         }
     }
