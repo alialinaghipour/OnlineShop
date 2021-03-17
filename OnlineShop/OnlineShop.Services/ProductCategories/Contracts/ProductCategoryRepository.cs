@@ -11,5 +11,6 @@ namespace OnlineShop.Services.ProductCategories.Contracts
     {
         void Add(ProductCategory productCategory);
         Task<IList<GetAllProductCategoryDto>> GetAll();
+        Task<bool> IsExistsById(int id);
     }
 }

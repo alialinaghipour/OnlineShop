@@ -14,8 +14,11 @@ using Microsoft.Extensions.Logging;
 using OnlineShop.Infrastructure.Application;
 using OnlineShop.Persistence.EF;
 using OnlineShop.Persistence.EF.ProductCategories;
+using OnlineShop.Persistence.EF.Products;
 using OnlineShop.Services.ProductCategories;
 using OnlineShop.Services.ProductCategories.Contracts;
+using OnlineShop.Services.Products;
+using OnlineShop.Services.Products.Contracts;
 
 namespace OnlineShop.RestApi
 {
@@ -41,8 +44,10 @@ namespace OnlineShop.RestApi
             services.AddScoped<UnitOfWork, EFUnitOfWork>();
 
             services.AddScoped<ProductCategoryRepository, EFProductCategoryRepository>();
-
             services.AddScoped<ProdcutCategoryServices, ProductCategoryAppServices>();
+
+            services.AddScoped<ProductRepository, EFProductRepository>();
+            services.AddScoped<ProductServices, ProductAppServices>();
 
             services.AddSwaggerGen();
         }
