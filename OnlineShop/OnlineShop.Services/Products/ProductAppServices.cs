@@ -5,6 +5,7 @@ using OnlineShop.Services.ProductCategories.Exceptions;
 using OnlineShop.Services.Products.Contracts;
 using OnlineShop.Services.Products.Exceptions;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,8 +41,20 @@ namespace OnlineShop.Services.Products
                 Title = dto.Title
             };
 
+            var warehouseItem = new HashSet<WarehouseItem>()
+            {
+                new WarehouseItem()
+                {
+                    ProductId=product.Id,
+                    Count=0
+                }
+            };
+
+            product.WarehouseItems = warehouseItem;
+
             _repository.Add(product);
 
+            
            await _unitOfWork.ComplateAysnc();
 
             return product.Id;
