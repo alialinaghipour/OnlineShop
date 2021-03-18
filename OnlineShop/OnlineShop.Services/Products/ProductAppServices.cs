@@ -70,5 +70,19 @@ namespace OnlineShop.Services.Products
                 throw new ProductTitleDuplicateToProductCategoryException();
             }
         }
+
+        public async Task<GetByIdProductDto> GetById(int id)
+        {
+            await CheckedExistsById(id);
+            return await _repository.GetById(id);
+        }
+
+        private async Task CheckedExistsById(int id)
+        {
+            if(!await _repository.IsExistsById(id))
+            {
+                throw new ProductNotFoundException();
+            }
+        }
     }
 }

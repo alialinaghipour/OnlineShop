@@ -8,5 +8,6 @@ namespace OnlineShop.Services.Products.Contracts
     public interface ProductServices
     {
         Task<int> Add(AddProductDto dto);
+        Task<GetByIdProductDto> GetById(int id);
     }
 }

@@ -3,6 +3,7 @@ using OnlineShop.Entities;
 using OnlineShop.Services.Products.Contracts;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,9 +26,31 @@ namespace OnlineShop.Persistence.EF.Products
             _set.Add(product);
         }
 
+        public async Task<Product> FindById(int id)
+        {
+            return await _set.FindAsync(id);
+        }
+
+        public async Task<GetByIdProductDto> GetById(int id)
+        {
+            return await _set.Select(_ => new GetByIdProductDto()
+            {
+                Id = _.Id,
+                Title = _.Title,
+                Code = _.Code,
+                MinimumStack = _.MinimumStack,
+                ProductCategoryId = _.ProductCategoryId
+            }).SingleOrDefaultAsync();
+        }
+
         public async Task<bool> IsExistsByCode(string code)
         {
             return await _set.AnyAsync(_ => _.Code==code);
+        }
+
+        public async Task<bool> IsExistsById(int id)
+        {
+            return await _set.AnyAsync(_ => _.Id == id);
         }
 
         public async Task<bool> IsExistsTitleToProductCategory(string title, int productCategoryId)
