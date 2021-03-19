@@ -24,6 +24,11 @@ namespace OnlineShop.Persistence.EF.SalesInvoices
             _set.Add(salesInvoice);
         }
 
+        public async Task<SalesInvoice> FindByNumber(string number)
+        {
+            return await _set.Include(_=>_.AccountingDocuments).SingleOrDefaultAsync(_ => _.Number == number);
+        }
+
         public async Task<bool> IsExistsByNumber(string number)
         {
             return await _set.AnyAsync(_ => _.Number == number);

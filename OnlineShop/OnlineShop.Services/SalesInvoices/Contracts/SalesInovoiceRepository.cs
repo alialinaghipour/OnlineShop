@@ -10,5 +10,7 @@ namespace OnlineShop.Services.SalesInvoices.Contracts
     {
         void Add(SalesInvoice salesInvoice);
         Task<bool> IsExistsByNumber(string number);
+        Task<SalesInvoice> FindByNumber(string number);
+        
     }
 }

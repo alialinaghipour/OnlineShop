@@ -17,6 +17,7 @@ using OnlineShop.Persistence.EF.ProductCategories;
 using OnlineShop.Persistence.EF.ProductEntries;
 using OnlineShop.Persistence.EF.Products;
 using OnlineShop.Persistence.EF.SalesInvoices;
+using OnlineShop.Persistence.EF.SalesItems;
 using OnlineShop.Persistence.EF.WarehouseItems;
 using OnlineShop.Services.ProductCategories;
 using OnlineShop.Services.ProductCategories.Contracts;
@@ -26,6 +27,8 @@ using OnlineShop.Services.Products;
 using OnlineShop.Services.Products.Contracts;
 using OnlineShop.Services.SalesInvoices;
 using OnlineShop.Services.SalesInvoices.Contracts;
+using OnlineShop.Services.SalesItems;
+using OnlineShop.Services.SalesItems.Contracts;
 using OnlineShop.Services.WarehouseItems.Contracts;
 
 namespace OnlineShop.RestApi
@@ -64,6 +67,9 @@ namespace OnlineShop.RestApi
 
             services.AddScoped<SalesInovoiceRepository, EFSalesInvoiceRepository>();
             services.AddScoped<SalesInvoiceServices, SalesInvoiceAppServices>();
+
+            services.AddScoped<SalesItemsRepository, EFSalesItemRepository>();
+            services.AddScoped<SalesItemServices, SalesItemAppServices>();
 
             services.AddSwaggerGen();
         }

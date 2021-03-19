@@ -33,15 +33,17 @@ namespace OnlineShop.Services.SalesInvoices
                 Number = dto.Number
             };
 
+            decimal firstPrice = 0;
+
             var accounting = new HashSet<AccountingDocument>()
             {
                  new AccountingDocument()
                 {
                 SalesInvoiceId = salesInvoice.Id,
                 CreateDate = DateTime.Now,
-                Number = DateTime.Now.ToString(),
-                NumberInvoice = salesInvoice.Number,
-                TotalPrice = 0
+                Number ="dsedfgfaaccbf",
+                NumberInvoice = dto.Number,
+                TotalPrice=firstPrice
                 }
             };
 
