@@ -29,6 +29,7 @@ using OnlineShop.Services.SalesInvoices;
 using OnlineShop.Services.SalesInvoices.Contracts;
 using OnlineShop.Services.SalesItems;
 using OnlineShop.Services.SalesItems.Contracts;
+using OnlineShop.Services.WarehouseItems;
 using OnlineShop.Services.WarehouseItems.Contracts;
 
 namespace OnlineShop.RestApi
@@ -64,6 +65,7 @@ namespace OnlineShop.RestApi
             services.AddScoped<ProductEntryServices, ProductEntryAppServices>();
 
             services.AddScoped<WarehouseItemRepository, EFWarehouseItemRepository>();
+            services.AddScoped<WarehouseItemServices, WarehouseItemAppServices>();
 
             services.AddScoped<SalesInovoiceRepository, EFSalesInvoiceRepository>();
             services.AddScoped<SalesInvoiceServices, SalesInvoiceAppServices>();
