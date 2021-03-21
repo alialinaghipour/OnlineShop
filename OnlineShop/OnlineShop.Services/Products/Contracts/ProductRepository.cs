@@ -14,5 +14,6 @@ namespace OnlineShop.Services.Products.Contracts
         Task<bool> IsExistsById(int id);
         Task<GetByIdProductDto> GetById(int id);
         Task<Product> FindById(int id);
+        void Delete(Product product);
     }
 }

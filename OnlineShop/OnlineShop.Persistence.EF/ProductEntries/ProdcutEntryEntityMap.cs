@@ -26,7 +26,7 @@ namespace OnlineShop.Persistence.EF.ProductEntries
             _.Property(_ => _.ProductId).IsRequired();
 
             _.HasOne(_ => _.product)
-                .WithMany()
+                .WithMany(_=>_.ProductEntries)
                 .HasForeignKey(_ => _.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
         }

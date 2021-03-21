@@ -64,8 +64,14 @@ namespace OnlineShop.Persistence.EF.WarehouseItems
 
         public async Task<int> CountInSearch(string filter)
         {
-            return await _set.Where(_ => _.Product.Title.Contains(filter))
+            return await _set
+                .Where(_ => _.Product.Title.Contains(filter))
                 .Select(_ => _.Count).CountAsync();
+        }
+
+        public void Delete(WarehouseItem warehouseItem)
+        {
+            _set.Remove(warehouseItem);
         }
     }
 }

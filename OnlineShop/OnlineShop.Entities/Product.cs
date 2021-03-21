@@ -9,6 +9,8 @@ namespace OnlineShop.Entities
         public Product()
         {
             WarehouseItems = new HashSet<WarehouseItem>();
+            ProductEntries = new HashSet<ProductEntry>();
+            SalesItems = new HashSet<SalesItem>();
         }
 
         public int Id { get; set; }
@@ -19,6 +21,8 @@ namespace OnlineShop.Entities
         public int ProductCategoryId { get; set; }
         public ProductCategory ProductCategory { get; set; }
         public HashSet<WarehouseItem> WarehouseItems { get; set; }
+        public HashSet<ProductEntry> ProductEntries { get; set; }
+        public HashSet<SalesItem> SalesItems { get; set; }
 
     }
 }

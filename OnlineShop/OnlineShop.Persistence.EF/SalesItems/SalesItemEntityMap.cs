@@ -31,7 +31,7 @@ namespace OnlineShop.Persistence.EF.SalesItems
                 .OnDelete(DeleteBehavior.Restrict);
 
             _.HasOne(_ => _.Product)
-               .WithMany()
+               .WithMany(_=>_.SalesItems)
                .HasForeignKey(_ => _.ProductId)
                .OnDelete(DeleteBehavior.Restrict);
 

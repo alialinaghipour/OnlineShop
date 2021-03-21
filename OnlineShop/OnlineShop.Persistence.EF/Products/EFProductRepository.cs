@@ -26,9 +26,18 @@ namespace OnlineShop.Persistence.EF.Products
             _set.Add(product);
         }
 
+        public void Delete(Product product)
+        {
+            _set.Remove(product);
+        }
+
         public async Task<Product> FindById(int id)
         {
-            return await _set.FindAsync(id);
+            return await _set
+                .Include(_ => _.ProductEntries)
+                .Include(_ => _.SalesItems)
+                .Include(_ => _.WarehouseItems)
+                .SingleOrDefaultAsync(_ => _.Id == id);
         }
 
         public async Task<GetByIdProductDto> GetById(int id)

@@ -9,5 +9,6 @@ namespace OnlineShop.Services.Products.Contracts
     {
         Task<int> Add(AddProductDto dto);
         Task<GetByIdProductDto> GetById(int id);
+        Task Delete(int id);
     }
 }
