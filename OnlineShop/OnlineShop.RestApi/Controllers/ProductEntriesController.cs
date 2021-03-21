@@ -28,5 +28,11 @@ namespace OnlineShop.RestApi.Controllers
         {
             await _services.Delete(id);
         }
+
+        [HttpGet]
+        public async Task<IList<GetAllProductEntryDto>> GetAll()
+        {
+            return await _services.GetAll();
+        }
     }
 }

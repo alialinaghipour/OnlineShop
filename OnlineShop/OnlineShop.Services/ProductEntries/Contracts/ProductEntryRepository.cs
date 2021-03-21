@@ -11,5 +11,6 @@ namespace OnlineShop.Services.ProductEntries.Contracts
         void Add(ProductEntry productEntry);
         void Delete(ProductEntry productEntry);
         Task<ProductEntry> FindById(int id);
+        Task<IList<GetAllProductEntryDto>> GetAll();
     }
 }

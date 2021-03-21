@@ -10,5 +10,6 @@ namespace OnlineShop.Services.ProductEntries.Contracts
     {
         Task<int> Add(AddProductEntryDto dto);
         Task Delete(int id);
+        Task<IList<GetAllProductEntryDto>> GetAll();
     }
 }

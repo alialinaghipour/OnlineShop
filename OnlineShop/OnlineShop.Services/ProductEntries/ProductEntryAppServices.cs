@@ -92,5 +92,9 @@ namespace OnlineShop.Services.ProductEntries
             }
         }
 
+        public async Task<IList<GetAllProductEntryDto>> GetAll()
+        {
+            return await _repository.GetAll();
+        }
     }
 }
