@@ -1,6 +1,7 @@
 ﻿using OnlineShop.Entities;
 using OnlineShop.Infrastructure.Application;
 using OnlineShop.Services.ProductEntries.Contracts;
+using OnlineShop.Services.ProductEntries.Exceptions;
 using OnlineShop.Services.Products.Contracts;
 using OnlineShop.Services.Products.Exceptions;
 using OnlineShop.Services.WarehouseItems.Contracts;
@@ -57,5 +58,39 @@ namespace OnlineShop.Services.ProductEntries
                 throw new ProductNotFoundException();
             }
         }
+
+        public async Task Delete(int id)
+        {
+            var productEntry = await _repository.FindById(id);
+
+            CheckedExsitsProductEntry(productEntry);
+
+            var warehouseItem = await _warehouseRepository.FindByProductCode(productEntry.product.Code);
+
+            CheckedCountProductEntryHasWarehouse(warehouseItem.Count, productEntry.Count);
+
+            warehouseItem.Count -= productEntry.Count;
+
+            _repository.Delete(productEntry);
+
+            await _unitOfWork.ComplateAysnc();
+        }
+
+        private void CheckedExsitsProductEntry(ProductEntry productEntry)
+        {
+            if (productEntry == null)
+            {
+                throw new ProductEntryNotFoundException();
+            }
+        }
+
+        private void CheckedCountProductEntryHasWarehouse(int countWarehouse,int countEntry)
+        {
+            if (countWarehouse < countEntry)
+            {
+                throw new ProductEntryNotDeleteException();
+            }
+        }
+
     }
 }
