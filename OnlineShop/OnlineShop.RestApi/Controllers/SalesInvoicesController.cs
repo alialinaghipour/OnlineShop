@@ -22,5 +22,11 @@ namespace OnlineShop.RestApi.Controllers
         {
             return await _services.Add(dto);
         }
+
+        [HttpGet("{id}")]
+        public async Task<GetByIdSalesInvoiceDto> GetById(int id)
+        {
+            return await _services.GetById(id);
+        }
     }
 }

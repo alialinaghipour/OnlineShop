@@ -3,6 +3,7 @@ using OnlineShop.Entities;
 using OnlineShop.Services.SalesInvoices.Contracts;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,9 +25,19 @@ namespace OnlineShop.Persistence.EF.SalesInvoices
             _set.Add(salesInvoice);
         }
 
+        public async Task<SalesInvoice> FindById(int id)
+        {
+            return await _set
+                .Include(_ => _.SalesItems)
+                .Include(_ => _.AccountingDocuments)
+                .SingleOrDefaultAsync(_ => _.Id == id);
+        }
+
         public async Task<SalesInvoice> FindByNumber(string number)
         {
-            return await _set.Include(_=>_.AccountingDocuments).SingleOrDefaultAsync(_ => _.Number == number);
+            return await _set
+                .Include(_=>_.AccountingDocuments)
+                .SingleOrDefaultAsync(_ => _.Number == number);
         }
 
         public async Task<bool> IsExistsByNumber(string number)

@@ -18,7 +18,7 @@ namespace OnlineShop.Persistence.EF.Products
         public EFProductRepository(EFDataContext context)
         {
             _context = context;
-            _set = context.Products;
+            _set = _context.Products;
         }
 
         public void Add(Product product)
@@ -64,7 +64,10 @@ namespace OnlineShop.Persistence.EF.Products
 
         public async Task<bool> IsExistsTitleToProductCategory(string title, int productCategoryId)
         {
-            return await _set.AnyAsync(_ => _.Title == title && _.ProductCategoryId == productCategoryId);
+            return await _set
+                .AnyAsync(_ =>
+                          _.Title == title &&
+                          _.ProductCategoryId == productCategoryId);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace OnlineShop.Persistence.EF.WarehouseItems
         public EFWarehouseItemRepository(EFDataContext context)
         {
             _context = context;
-            _set = context.WarehouseItems;
+            _set = _context.WarehouseItems;
         }
 
         public async Task<WarehouseItem> FindByProductCode(string code)
@@ -44,6 +44,7 @@ namespace OnlineShop.Persistence.EF.WarehouseItems
             return await query;
         }
 
+    
         public async Task<IList<GetAllWarehouseItemsDto>> GetAll
             (string filter,int skip,int take)
         {

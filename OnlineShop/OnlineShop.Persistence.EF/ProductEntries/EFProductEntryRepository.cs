@@ -13,13 +13,11 @@ namespace OnlineShop.Persistence.EF.ProductEntries
     {
         private readonly EFDataContext _context;
         private readonly DbSet<ProductEntry> _set;
-        private readonly DbSet<Product> _setProduct;
 
         public EFProductEntryRepository(EFDataContext context)
         {
             _context = context;
-            _set = context.ProductEntries;
-            _setProduct = context.Products;
+            _set = _context.ProductEntries;
         }
 
         public void Add(ProductEntry productEntry)

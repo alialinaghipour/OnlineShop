@@ -8,5 +8,7 @@ namespace OnlineShop.Services.SalesInvoices.Contracts
     public interface SalesInvoiceServices
     {
         Task<int> Add(AddSalesInvoiceDto dto);
+        Task<GetByIdSalesInvoiceDto> GetById(int id);
+
     }
 }

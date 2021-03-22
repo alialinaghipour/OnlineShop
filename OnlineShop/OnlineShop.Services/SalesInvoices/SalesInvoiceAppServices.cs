@@ -63,5 +63,34 @@ namespace OnlineShop.Services.SalesInvoices
                 throw new DuplicateInvoiceNumberException();
             }
         }
+        public async Task<GetByIdSalesInvoiceDto> GetById(int id)
+        {
+            var invoice = await _repository.FindById(id);
+
+            int count = 0;
+            foreach(var item in invoice.SalesItems)
+            {
+                count += item.Count;
+            }
+
+            decimal price = 0;
+            foreach(var item in invoice.AccountingDocuments)
+            {
+                price += item.TotalPrice;
+            }
+
+            GetByIdSalesInvoiceDto dto = new GetByIdSalesInvoiceDto()
+            {
+                Count = count,
+                TotalPrice = price,
+                NumberInvoice = invoice.Number,
+                CustomerName = invoice.CustomerName,
+                CreateDate = invoice.CreateDate,
+                Id = invoice.Id
+            };
+
+            return dto;
+        }
+
     }
 }

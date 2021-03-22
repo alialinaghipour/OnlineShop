@@ -17,7 +17,7 @@ namespace OnlineShop.Persistence.EF.ProductCategories
         public EFProductCategoryRepository(EFDataContext context)
         {
             _context = context;
-            _set = context.ProductCategories;
+            _set = _context.ProductCategories;
         }
 
         public void Add(ProductCategory productCategory)
