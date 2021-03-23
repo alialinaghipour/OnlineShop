@@ -4,7 +4,7 @@ using System.Text;
 
 namespace OnlineShop.Services.ProductCategories.Exceptions
 {
-    public class NotExistByProductCategoryIdException:Exception
+    class ProductCategoryNotFoundException:Exception
     {
         public override string Message => "دسته بندی ، با این شناسه  وجود ندارد";
     }

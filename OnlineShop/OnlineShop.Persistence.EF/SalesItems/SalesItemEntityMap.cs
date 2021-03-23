@@ -7,7 +7,7 @@ using OnlineShop.Entities;
 
 namespace OnlineShop.Persistence.EF.SalesItems
 {
-    public class SalesItemEntityMap : IEntityTypeConfiguration<SalesItem>
+    class SalesItemEntityMap : IEntityTypeConfiguration<SalesItem>
     {
         public void Configure(EntityTypeBuilder<SalesItem> _)
         {

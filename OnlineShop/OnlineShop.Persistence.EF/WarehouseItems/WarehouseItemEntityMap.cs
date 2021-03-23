@@ -7,7 +7,7 @@ using OnlineShop.Entities;
 
 namespace OnlineShop.Persistence.EF.WarehouseItems
 {
-    public class WarehouseItemEntityMap : IEntityTypeConfiguration<WarehouseItem>
+    class WarehouseItemEntityMap : IEntityTypeConfiguration<WarehouseItem>
     {
         public void Configure(EntityTypeBuilder<WarehouseItem> _)
         {

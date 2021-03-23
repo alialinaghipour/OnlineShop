@@ -7,7 +7,7 @@ using OnlineShop.Entities;
 
 namespace OnlineShop.Persistence.EF.AccountingDocuments
 {
-    public class AccountingDocumentEntityMap : IEntityTypeConfiguration<AccountingDocument>
+    class AccountingDocumentEntityMap : IEntityTypeConfiguration<AccountingDocument>
     {
         public void Configure(EntityTypeBuilder<AccountingDocument> _)
         {

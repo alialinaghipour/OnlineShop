@@ -4,7 +4,7 @@ using System.Text;
 
 namespace OnlineShop.Services.Products.Exceptions
 {
-    public class DuplicateProductCodeException:Exception
+     class DuplicateProductCodeException:Exception
     {
         public override string Message => "این کد محصول تکراری است";
     }

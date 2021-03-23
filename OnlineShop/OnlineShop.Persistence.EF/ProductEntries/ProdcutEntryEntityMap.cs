@@ -7,7 +7,7 @@ using OnlineShop.Entities;
 
 namespace OnlineShop.Persistence.EF.ProductEntries
 {
-    public class ProdcutEntryEntityMap : IEntityTypeConfiguration<ProductEntry>
+    class ProdcutEntryEntityMap : IEntityTypeConfiguration<ProductEntry>
     {
         public void Configure(EntityTypeBuilder<ProductEntry> _)
         {

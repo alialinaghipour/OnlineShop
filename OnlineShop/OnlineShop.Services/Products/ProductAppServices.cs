@@ -69,7 +69,7 @@ namespace OnlineShop.Services.Products
         {
             if(!await _productCategoryRepository.IsExistsById(productCategoryId))
             {
-                throw new NotExistByProductCategoryIdException();
+                throw new ProductCategoryNotFoundException();
             }
         }
 
