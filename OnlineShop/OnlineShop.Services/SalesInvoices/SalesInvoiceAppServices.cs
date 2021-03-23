@@ -66,15 +66,16 @@ namespace OnlineShop.Services.SalesInvoices
         public async Task<GetByIdSalesInvoiceDto> GetById(int id)
         {
             var invoice = await _repository.FindById(id);
+            CheckedExsitsSalesInvoice(invoice);
 
             int count = 0;
-            foreach(var item in invoice.SalesItems)
+            foreach (var item in invoice.SalesItems)
             {
                 count += item.Count;
             }
 
             decimal price = 0;
-            foreach(var item in invoice.AccountingDocuments)
+            foreach (var item in invoice.AccountingDocuments)
             {
                 price += item.TotalPrice;
             }
@@ -92,5 +93,12 @@ namespace OnlineShop.Services.SalesInvoices
             return dto;
         }
 
+        private void CheckedExsitsSalesInvoice(SalesInvoice invoice)
+        {
+            if (invoice == null)
+            {
+                throw new SalesInvoiceNotFoundException();
+            }
+        }
     }
 }
