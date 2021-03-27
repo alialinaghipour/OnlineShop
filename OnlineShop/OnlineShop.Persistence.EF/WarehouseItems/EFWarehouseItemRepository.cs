@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineShop.Entities;
+using OnlineShop.Persistence.EF;
 using OnlineShop.Services.WarehouseItems.Contracts;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OnlineShop.Persistence.EF.WarehouseItems
+namespace OnlineShop.PersistenceEF.WarehouseItems
 {
     public class EFWarehouseItemRepository : WarehouseItemRepository
     {
@@ -49,7 +50,8 @@ namespace OnlineShop.Persistence.EF.WarehouseItems
             (string filter,int skip,int take)
         {
             return await _set
-                .Where(_ => _.Product.Title.Contains(filter))
+                .Where(_ => EF.Functions.Like(_.Product.Title, $"%{filter}%")
+                      || EF.Functions.Like(_.Product.Code, $"%{filter}%"))
                 .Skip(skip)
                 .Take(take)
                 .Select(_ => new GetAllWarehouseItemsDto()
@@ -63,11 +65,11 @@ namespace OnlineShop.Persistence.EF.WarehouseItems
                 .ToListAsync();
         }
 
-        public async Task<int> CountInSearch(string filter)
+        public async Task<int> CountProdcutByFilter(string filter)
         {
             return await _set
-                .Where(_ => _.Product.Title.Contains(filter))
-                .Select(_ => _.Count).CountAsync();
+                .CountAsync(_ => EF.Functions.Like(_.Product.Title, $"%{filter}%")
+                           || EF.Functions.Like(_.Product.Code, $"%{filter}%"));
         }
 
         public void Delete(WarehouseItem warehouseItem)

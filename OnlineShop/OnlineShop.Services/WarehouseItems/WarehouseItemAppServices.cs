@@ -24,11 +24,11 @@ namespace OnlineShop.Services.WarehouseItems
         public async Task<IList<GetAllWarehouseItemsDto>> GetAll
             (string filter, int pageId)
         {
-            var CountAll = await _repository.CountInSearch(filter);
+            var CountProduct = await _repository.CountProdcutByFilter(filter);
 
             int take = 2;
 
-            int totalPageCount= (int)Math.Ceiling((double)CountAll / take);
+            int totalPageCount= (int)Math.Ceiling((double)CountProduct / take);
 
             if (totalPageCount < pageId)
             {

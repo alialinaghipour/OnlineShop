@@ -11,7 +11,7 @@ namespace OnlineShop.Services.WarehouseItems.Contracts
         Task<WarehouseItem> FindByProductCode(string code);
         Task<IList<GetAllWarehouseItemsDto>> GetAll();
         Task<IList<GetAllWarehouseItemsDto>> GetAll(string filter, int skip, int take);
-        Task<int> CountInSearch(string filter);
+        Task<int> CountProdcutByFilter(string filter);
         void Delete(WarehouseItem warehouseItem);
     }
 }

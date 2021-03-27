@@ -19,6 +19,7 @@ using OnlineShop.Persistence.EF.Products;
 using OnlineShop.Persistence.EF.SalesInvoices;
 using OnlineShop.Persistence.EF.SalesItems;
 using OnlineShop.Persistence.EF.WarehouseItems;
+using OnlineShop.PersistenceEF.WarehouseItems;
 using OnlineShop.Services.ProductCategories;
 using OnlineShop.Services.ProductCategories.Contracts;
 using OnlineShop.Services.ProductEntries;
