@@ -91,13 +91,24 @@ namespace OnlineShop.Services.Products
 
         public async Task<GetByIdProductDto> GetById(int id)
         {
-            await CheckedExistsById(id);
-            return await _repository.GetById(id);
+            var product = await _repository.FindById(id);
+            CheckedExistsProduct(product);
+
+            GetByIdProductDto dto = new GetByIdProductDto()
+            {
+                Id = product.Id,
+                Code = product.Code,
+                MinimumStack = product.MinimumStack,
+                ProductCategoryId = product.ProductCategoryId,
+                Title = product.Title
+            };
+
+            return dto;
         }
 
-        private async Task CheckedExistsById(int id)
+        private void CheckedExistsProduct(Product prdouct)
         {
-            if(!await _repository.IsExistsById(id))
+            if (prdouct == null)
             {
                 throw new ProductNotFoundException();
             }
@@ -117,14 +128,6 @@ namespace OnlineShop.Services.Products
             _repository.Delete(prdouct);
 
             await _unitOfWork.ComplateAysnc();
-        }
-
-        private void CheckedExistsProduct(Product prdouct)
-        {
-            if (prdouct == null)
-            {
-                throw new ProductNotFoundException();
-            }
         }
 
         private void CheckedProductSubsetByCount(int subsetCount)
