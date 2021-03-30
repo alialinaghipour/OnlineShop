@@ -1,7 +1,10 @@
 ﻿using OnlineShop.Entities;
 using OnlineShop.Infrastructure.Application;
+using OnlineShop.Services.Products.Exceptions;
 using OnlineShop.Services.SalesInvoices.Contracts;
 using OnlineShop.Services.SalesInvoices.Exceptions;
+using OnlineShop.Services.WarehouseItems.Contracts;
+using OnlineShop.Services.WarehouseItems.Exceprions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,27 +16,47 @@ namespace OnlineShop.Services.SalesInvoices
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly SalesInovoiceRepository _repository;
+        private readonly WarehouseItemRepository _warehouseItemRepository;
 
         public SalesInvoiceAppServices(
             UnitOfWork unitOfWork,
-            SalesInovoiceRepository salesInovoiceRepository)
+            SalesInovoiceRepository salesInovoiceRepository,
+            WarehouseItemRepository warehouseItemRepository)
         {
             _unitOfWork = unitOfWork;
             _repository = salesInovoiceRepository;
+            _warehouseItemRepository = warehouseItemRepository;
         }
 
         public async Task<int> Add(AddSalesInvoiceDto dto)
         {
             await CheckedExistsByNumber(dto.Number);
 
-            SalesInvoice salesInvoice = new SalesInvoice()
+            var salesInvoice = new SalesInvoice()
             {
                 CreateDate = DateTime.Now,
                 CustomerName = dto.CustomerName,
                 Number = dto.Number
             };
 
-            decimal firstPrice = 0;
+            decimal totalPrice = 0;
+            var selasItems = new HashSet<SalesItem>();
+            foreach(var item in dto.SalesItemDtos)
+            {
+                var warehousItem = await _warehouseItemRepository.FindByProductCode(item.ProductCode);
+                CheckedExistsProductToWarehouse(warehousItem);
+                CheckedStockInWarehouse(warehousItem.Count, item.Count);
+                selasItems.Add(new SalesItem
+                {
+                    Count = item.Count,
+                    SalesInvoiceId = salesInvoice.Id,
+                    Price = item.Price,
+                    ProductId = warehousItem.ProductId,
+                });
+                totalPrice += (item.Price*item.Count);
+                warehousItem.Count -= item.Count;
+            }
+            salesInvoice.SalesItems = selasItems;
 
             var accounting = new HashSet<AccountingDocument>()
             {
@@ -41,19 +64,32 @@ namespace OnlineShop.Services.SalesInvoices
                 {
                 SalesInvoiceId = salesInvoice.Id,
                 CreateDate = DateTime.Now,
-                Number ="dsedfgfaaccbf",
+                Number =DateTime.Now.ToShortDateString(),
                 NumberInvoice = dto.Number,
-                TotalPrice=firstPrice
+                TotalPrice=totalPrice
                 }
             };
 
             salesInvoice.AccountingDocuments = accounting;
-
             _repository.Add(salesInvoice);
-
             _unitOfWork.Complate();
-
             return salesInvoice.Id;
+        }
+
+        private void CheckedExistsProductToWarehouse(WarehouseItem warehouse)
+        {
+            if (warehouse == null)
+            {
+                throw new ProductNotFoundException();
+            }
+        }
+
+        private void CheckedStockInWarehouse(int warehouseCount, int salesCount)
+        {
+            if (warehouseCount < salesCount)
+            {
+                throw new NotStockInWarehouseException();
+            }
         }
 
         private async Task CheckedExistsByNumber(string number)

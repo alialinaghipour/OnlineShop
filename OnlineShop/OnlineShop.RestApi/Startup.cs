@@ -28,8 +28,6 @@ using OnlineShop.Services.Products;
 using OnlineShop.Services.Products.Contracts;
 using OnlineShop.Services.SalesInvoices;
 using OnlineShop.Services.SalesInvoices.Contracts;
-using OnlineShop.Services.SalesItems;
-using OnlineShop.Services.SalesItems.Contracts;
 using OnlineShop.Services.WarehouseItems;
 using OnlineShop.Services.WarehouseItems.Contracts;
 
@@ -70,9 +68,6 @@ namespace OnlineShop.RestApi
 
             services.AddScoped<SalesInovoiceRepository, EFSalesInvoiceRepository>();
             services.AddScoped<SalesInvoiceServices, SalesInvoiceAppServices>();
-
-            services.AddScoped<SalesItemsRepository, EFSalesItemRepository>();
-            services.AddScoped<SalesItemServices, SalesItemAppServices>();
 
             services.AddSwaggerGen();
         }
