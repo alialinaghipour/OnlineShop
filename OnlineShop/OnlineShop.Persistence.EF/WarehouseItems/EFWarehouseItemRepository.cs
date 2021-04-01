@@ -25,27 +25,7 @@ namespace OnlineShop.PersistenceEF.WarehouseItems
         {
             return await _set.SingleOrDefaultAsync(_ => _.Product.Code == code);
         }
-
-        public async Task<IList<GetAllWarehouseItemsDto>> GetAll()
-        {
-            var query =
-                (from warehouse in _set
-                 join product in _context.Products
-                 on warehouse.ProductId equals product.Id
-                 join category in _context.ProductCategories
-                 on product.ProductCategoryId equals category.Id
-                 select new GetAllWarehouseItemsDto()
-                 {
-                     productName = product.Title,
-                     ProductCode = product.Code,
-                     ProductCategroy = category.Title,
-                     MinimumStock = product.MinimumStack,
-                     Stock = warehouse.Count
-                 }).ToListAsync();
-            return await query;
-        }
-
-    
+        
         public async Task<IList<GetAllWarehouseItemsDto>> GetAll
             (string filter,int skip,int take)
         {

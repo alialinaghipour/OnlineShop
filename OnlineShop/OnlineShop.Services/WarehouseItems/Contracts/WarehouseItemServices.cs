@@ -7,8 +7,6 @@ namespace OnlineShop.Services.WarehouseItems.Contracts
 {
     public interface WarehouseItemServices
     {
-        Task<IList<GetAllWarehouseItemsDto>> GetAll();
         Task<IList<GetAllWarehouseItemsDto>> GetAll(string filter, int pageId);
-
     }
 }
