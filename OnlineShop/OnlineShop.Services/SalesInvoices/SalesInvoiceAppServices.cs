@@ -40,8 +40,37 @@ namespace OnlineShop.Services.SalesInvoices
             };
 
             decimal totalPrice = 0;
+            totalPrice = await AddSalesItemsToSalesInvoice(dto.SalesItemDtos, salesInvoice, totalPrice);
+
+            AddAccountingDocumentForSalesInvoice(salesInvoice, totalPrice);
+
+            _repository.Add(salesInvoice);
+            _unitOfWork.Complate();
+            return salesInvoice.Id;
+        }
+
+        private void AddAccountingDocumentForSalesInvoice
+            (SalesInvoice salesInvoice, decimal totalPrice)
+        {
+            var accounting = new HashSet<AccountingDocument>()
+            {
+                 new AccountingDocument()
+                {
+                SalesInvoiceId = salesInvoice.Id,
+                CreateDate = DateTime.Now,
+                Number =DateTime.Now.ToShortDateString(),
+                NumberInvoice = salesInvoice.Number,
+                TotalPrice=totalPrice
+                }
+            };
+            salesInvoice.AccountingDocuments = accounting;
+        }
+
+        private async Task<decimal> AddSalesItemsToSalesInvoice
+            (HashSet<SalesItemDto> dto, SalesInvoice salesInvoice, decimal totalPrice)
+        {
             var selasItems = new HashSet<SalesItem>();
-            foreach(var item in dto.SalesItemDtos)
+            foreach (var item in dto)
             {
                 var warehousItem = await _warehouseItemRepository.FindByProductCode(item.ProductCode);
                 CheckedExistsProductToWarehouse(warehousItem);
@@ -53,27 +82,11 @@ namespace OnlineShop.Services.SalesInvoices
                     Price = item.Price,
                     ProductId = warehousItem.ProductId,
                 });
-                totalPrice += (item.Price*item.Count);
+                totalPrice += (item.Price * item.Count);
                 warehousItem.Count -= item.Count;
             }
             salesInvoice.SalesItems = selasItems;
-
-            var accounting = new HashSet<AccountingDocument>()
-            {
-                 new AccountingDocument()
-                {
-                SalesInvoiceId = salesInvoice.Id,
-                CreateDate = DateTime.Now,
-                Number =DateTime.Now.ToShortDateString(),
-                NumberInvoice = dto.Number,
-                TotalPrice=totalPrice
-                }
-            };
-
-            salesInvoice.AccountingDocuments = accounting;
-            _repository.Add(salesInvoice);
-            _unitOfWork.Complate();
-            return salesInvoice.Id;
+            return totalPrice;
         }
 
         private void CheckedExistsProductToWarehouse(WarehouseItem warehouse)
