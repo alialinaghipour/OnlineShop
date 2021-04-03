@@ -26,14 +26,20 @@ namespace OnlineShop.PersistenceEF.WarehouseItems
             return await _set.SingleOrDefaultAsync(_ => _.Product.Code == code);
         }
         
-        public async Task<IList<GetAllWarehouseItemsDto>> GetAll
-            (string filter,int skip,int take)
+        public async Task<IList<GetAllWarehouseItemsDto>> GetAll(FilterWarehouseForRepositoryDto filterDto)
         {
-            return await _set
-                .Where(_ => EF.Functions.Like(_.Product.Title, $"%{filter}%")
-                      || EF.Functions.Like(_.Product.Code, $"%{filter}%"))
-                .Skip(skip)
-                .Take(take)
+            var warehouseItemsDto = FilterWarehouseItems(filterDto);
+            warehouseItemsDto = SortWarehouseItems(warehouseItemsDto, filterDto.IsAscending);
+            return await warehouseItemsDto.ToListAsync();
+        }
+
+        private IQueryable<GetAllWarehouseItemsDto> FilterWarehouseItems(FilterWarehouseForRepositoryDto filterDto)
+        {
+            return _set
+                .Where(_ => EF.Functions.Like(_.Product.Title, $"%{filterDto.Filter}%")
+                      || EF.Functions.Like(_.Product.Code, $"%{filterDto.Filter}%"))
+                .Skip(filterDto.Skip)
+                .Take(filterDto.Take)
                 .Select(_ => new GetAllWarehouseItemsDto()
                 {
                     MinimumStock = _.Product.MinimumStack,
@@ -41,8 +47,20 @@ namespace OnlineShop.PersistenceEF.WarehouseItems
                     productName = _.Product.Title,
                     ProductCategroy = _.Product.ProductCategory.Title,
                     ProductCode = _.Product.Code,
-                })
-                .ToListAsync();
+                });
+        }
+
+        private IQueryable<GetAllWarehouseItemsDto> SortWarehouseItems(IQueryable<GetAllWarehouseItemsDto> warehouseItemsDtos,bool isAscending)
+        {
+            if (isAscending)
+            {
+                warehouseItemsDtos = warehouseItemsDtos.OrderBy(_ => _.productName);
+            }
+            else
+            {
+                warehouseItemsDtos = warehouseItemsDtos.OrderByDescending(_ => _.productName);
+            }
+            return warehouseItemsDtos;
         }
 
         public async Task<int> CountProdcutByFilter(string filter)

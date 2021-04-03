@@ -19,9 +19,9 @@ namespace OnlineShop.RestApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IList<GetAllWarehouseItemsDto>> GetAll(string filter,[Required]int pageing=1)
+        public async Task<IList<GetAllWarehouseItemsDto>> GetAll([FromQuery]FilterWarehouseForServices filterDto,[Required]int pageing=1)
         {
-            return await _services.GetAll(filter, pageing);
+            return await _services.GetAll(filterDto, pageing);
         }
     }
 }
