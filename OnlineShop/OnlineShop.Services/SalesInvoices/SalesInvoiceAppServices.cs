@@ -74,7 +74,8 @@ namespace OnlineShop.Services.SalesInvoices
             {
                 var warehousItem = await _warehouseItemRepository.FindByProductCode(item.ProductCode);
                 CheckedExistsProductToWarehouse(warehousItem);
-                CheckedStockInWarehouse(warehousItem.Count, item.Count);
+                CheckedStackInWarehouse(warehousItem.Count, item.Count);
+                CheckedMinimumStackInProduct(warehousItem.Product.MinimumStack, warehousItem.Count);
                 selasItems.Add(new SalesItem
                 {
                     Count = item.Count,
@@ -97,9 +98,17 @@ namespace OnlineShop.Services.SalesInvoices
             }
         }
 
-        private void CheckedStockInWarehouse(int warehouseCount, int salesCount)
+        private void CheckedStackInWarehouse(int countWarehouse,int salesCount)
         {
-            if (warehouseCount < salesCount)
+            if (countWarehouse < salesCount)
+            {
+                throw new NotStockInWarehouseException();
+            }
+        }
+
+        private void CheckedMinimumStackInProduct(int minimumStack, int warehuose)
+        {
+            if (minimumStack >= warehuose)
             {
                 throw new NotStockInWarehouseException();
             }

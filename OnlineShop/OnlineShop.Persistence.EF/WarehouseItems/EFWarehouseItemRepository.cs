@@ -23,7 +23,9 @@ namespace OnlineShop.PersistenceEF.WarehouseItems
 
         public async Task<WarehouseItem> FindByProductCode(string code)
         {
-            return await _set.SingleOrDefaultAsync(_ => _.Product.Code == code);
+            return await _set
+                .Include(_=>_.Product)
+                .SingleOrDefaultAsync(_ => _.Product.Code == code);
         }
         
         public async Task<IList<GetAllWarehouseItemsDto>> GetAll(FilterWarehouseForRepositoryDto filterDto)
